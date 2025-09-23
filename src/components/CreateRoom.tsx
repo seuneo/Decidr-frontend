@@ -98,7 +98,7 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
                   value={question}
                   onChange={(e) => setQuestion(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="text-sm md:text-base p-3 md:p-4 border-2 focus:outline-none focus:ring-2 focus:ring-[#E07A5F]/30 transition-colors bg-white h-12 md:h-14 rounded-2xl"
+                    className="text-sm md:text-base pl-4 pr-3 py-3 md:pl-5 md:pr-4 md:py-4 border-2 focus:outline-none focus:ring-2 focus:ring-[#E07A5F]/30 transition-colors bg-white h-12 md:h-14 rounded-2xl"
                   style={{borderColor: '#3D405B'}}
                 />
               </div>
@@ -157,49 +157,59 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
           </div>
         </div>
 
-      {/* Content */}
-      <div className="flex-1 flex items-center justify-center p-4">
-        <div className="max-w-md w-full space-y-6">
-          {/* Question Display */}
-          <Card className="p-6 text-center space-y-4">
-            <h2 className="text-xl font-semibold">{room.question}</h2>
-            <div className="flex items-center justify-center space-x-2 text-muted-foreground">
-              <Users className="h-4 w-4" />
-              <span>{room.participants} participant{room.participants !== 1 ? 's' : ''} joined</span>
+        {/* Content */}
+        <div className="flex-1 flex items-center justify-center p-4">
+          <div className="max-w-md w-full space-y-6">
+            {/* Question Display */}
+            <div className="text-center">
+              <h2 className="text-lg font-medium text-slate-600">{room.question}</h2>
             </div>
-          </Card>
 
           {/* QR Code Placeholder */}
-          <Card className="p-8">
-            <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center mb-4">
-              <div className="text-center space-y-2">
-                <QrCode className="h-16 w-16 text-gray-400 mx-auto" />
-                <p className="text-sm text-muted-foreground">QR Code</p>
-                <p className="text-xs text-muted-foreground">Scan to join vote</p>
+          <Card className="p-4">
+            <div className="flex items-center justify-center py-4">
+              <div className="text-center space-y-3">
+                <img 
+                  src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://voteit.app/join/ABC123" 
+                  alt="QR Code to join vote"
+                  className="w-48 h-48 mx-auto rounded-lg"
+                />
+                <p className="text-sm text-muted-foreground">Scan QR code to join vote</p>
               </div>
             </div>
           </Card>
 
           {/* Room Code */}
-          <Card className="p-4 space-y-3">
-            <div className="text-center space-y-1">
-              <Label className="text-sm text-muted-foreground">Room Code</Label>
-              <div className="text-3xl font-bold tracking-wider bg-gray-50 rounded-lg py-3">
+          <div className="text-center space-y-4">
+            <div>
+              <div className="text-xl font-bold tracking-wider bg-white border border-[#3D405B] rounded-lg py-2">
                 {room.id}
               </div>
             </div>
             
             <div className="grid grid-cols-2 gap-2">
-              <Button variant="outline" size="sm" onClick={copyRoomCode}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={copyRoomCode}
+                className="border-2"
+                style={{borderColor: '#3D405B', color: '#3D405B', backgroundColor: '#F4F1DE'}}
+              >
                 <Copy className="h-4 w-4 mr-1" />
                 Copy Code
               </Button>
-              <Button variant="outline" size="sm" onClick={copyRoomLink}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={copyRoomLink}
+                className="border-2"
+                style={{borderColor: '#3D405B', color: '#3D405B', backgroundColor: '#F4F1DE'}}
+              >
                 <Copy className="h-4 w-4 mr-1" />
                 Copy Link
               </Button>
             </div>
-          </Card>
+          </div>
 
           {/* Start Button */}
           <Button 
