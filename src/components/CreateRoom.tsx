@@ -162,27 +162,28 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
           <div className="max-w-md w-full space-y-6">
             {/* Question Display */}
             <div className="text-center">
-              <h2 className="text-lg font-medium text-slate-600">{room.question}</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-black">{room.question}</h2>
             </div>
 
+          {/* Share Instructions */}
+          <div className="text-center">
+            <p className="text-sm text-slate-600">Share QR or room code to join</p>
+          </div>
+
           {/* QR Code Placeholder */}
-          <Card className="p-4">
-            <div className="flex items-center justify-center py-4">
-              <div className="text-center space-y-3">
-                <img 
-                  src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://voteit.app/join/ABC123" 
-                  alt="QR Code to join vote"
-                  className="w-48 h-48 mx-auto rounded-lg"
-                />
-                <p className="text-sm text-muted-foreground">Scan QR code to join vote</p>
-              </div>
-            </div>
-          </Card>
+          <div className="text-center space-y-3">
+            <img 
+              src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://voteit.app/join/ABC123" 
+              alt="QR Code to join vote"
+              className="w-48 h-48 mx-auto rounded-lg"
+            />
+            <p className="text-base font-medium text-slate-700">Scan QR code to join vote</p>
+          </div>
 
           {/* Room Code */}
           <div className="text-center space-y-4">
             <div>
-              <div className="text-xl font-bold tracking-wider bg-white border border-[#3D405B] rounded-lg py-2">
+              <div className="text-sm font-medium tracking-wider bg-white border border-[#3D405B] rounded-lg py-2 text-slate-600">
                 {room.id}
               </div>
             </div>
@@ -214,7 +215,7 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
           {/* Start Button */}
           <Button 
             onClick={onStartVoting}
-            className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-slate-300 disabled:cursor-not-allowed"
+            className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed"
             style={{
               backgroundColor: '#E07A5F',
               borderColor: '#3D405B',
