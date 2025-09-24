@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { ArrowLeft, Users, LogIn, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Home, Users, LogIn, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { toast } from 'sonner@2.0.3';
 
 interface JoinRoomProps {
@@ -53,7 +53,7 @@ export function JoinRoom({ onJoinRoom, onGoHome }: JoinRoomProps) {
             e.currentTarget.style.backgroundColor = 'transparent';
           }}
         >
-          <ArrowLeft className="h-4 w-4" />
+          <Home className="h-4 w-4" />
         </Button>
         <h1 className="ml-2 font-semibold">Join a Vote</h1>
       </div>

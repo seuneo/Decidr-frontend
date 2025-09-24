@@ -90,6 +90,13 @@ export default function App() {
         },
         hasVoted: true
       });
+      
+      // Auto-transition to results after 2 seconds for participants
+      if (userRole === 'participant') {
+        setTimeout(() => {
+          setCurrentState('results');
+        }, 2000);
+      }
     }
   };
 

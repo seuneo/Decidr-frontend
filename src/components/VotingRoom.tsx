@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-import { ArrowLeft, ThumbsUp, ThumbsDown, Users, StopCircle, CheckCircle, Clock } from 'lucide-react';
+import { Home, ThumbsUp, ThumbsDown, Users, StopCircle, CheckCircle, Clock } from 'lucide-react';
 import type { Room, UserRole } from '../App';
 
 interface VotingRoomProps {
@@ -38,7 +38,7 @@ export function VotingRoom({ room, userRole, userVote, onVote, onEndPoll, onGoHo
               e.currentTarget.style.backgroundColor = 'transparent';
             }}
           >
-            <ArrowLeft className="h-4 w-4" />
+            <Home className="h-4 w-4" />
           </Button>
           <h1 className="ml-2 font-semibold">
             Vote
@@ -141,7 +141,7 @@ export function VotingRoom({ room, userRole, userVote, onVote, onEndPoll, onGoHo
               <Button
                 onClick={onEndPoll}
                 disabled={totalVotes === 0}
-                className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed"
+                className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed mb-4"
                 style={{
                   backgroundColor: totalVotes === 0 ? '#E07A5F' : '#E07A5F',
                   borderColor: '#3D405B',
@@ -155,7 +155,7 @@ export function VotingRoom({ room, userRole, userVote, onVote, onEndPoll, onGoHo
                 End Vote
               </Button>
               {totalVotes === 0 && (
-                <p className="text-center text-sm text-slate-500 mt-2">
+                <p className="text-center text-sm text-slate-600">
                   At least one vote required to end
                 </p>
               )}

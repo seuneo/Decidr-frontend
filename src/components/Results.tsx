@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-import { ArrowLeft, Home, BarChart3, PieChart, ThumbsUp, ThumbsDown, Users, Share2, Download } from 'lucide-react';
+import { Home, BarChart3, PieChart, ThumbsUp, ThumbsDown, Users, Share2, Download } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, PieChart as RechartsPieChart, Cell } from 'recharts';
 import type { Room } from '../App';
 
@@ -66,7 +66,7 @@ export function Results({ room, onGoHome }: ResultsProps) {
               e.currentTarget.style.backgroundColor = 'transparent';
             }}
           >
-            <ArrowLeft className="h-4 w-4" />
+            <Home className="h-4 w-4" />
           </Button>
           <h1 className="ml-2 font-semibold">Results</h1>
         </div>
@@ -97,14 +97,6 @@ export function Results({ room, onGoHome }: ResultsProps) {
                   ) : (
                     <ThumbsDown className="h-8 w-8" style={{color: '#F4F1DE'}} />
                   )}
-                </div>
-                <div className="space-y-3">
-                  <h3 
-                    className="text-2xl font-semibold"
-                    style={{color: winner === 'YES' ? '#10B981' : '#EF4444'}}
-                  >
-                    {winner}
-                  </h3>
                 </div>
               </div>
             ) : (
@@ -189,11 +181,11 @@ export function Results({ room, onGoHome }: ResultsProps) {
             </div>
           </div>
 
-          <div className="flex items-center justify-center space-x-3">
+          <div className="text-center space-y-4">
             <div className="text-sm text-slate-500">
               Thanks for using <span className="font-semibold" style={{color: '#E07A5F'}}>VoteIt</span>! 🗳️
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center justify-center space-x-2">
               <Button 
                 onClick={() => {
                   if (navigator.share) {

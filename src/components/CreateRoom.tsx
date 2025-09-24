@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { ArrowLeft, Users, Copy, Play, QrCode, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Home, Users, Copy, Play, QrCode, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { toast } from 'sonner';
 import type { Room } from '../App';
 
@@ -67,7 +67,7 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
               e.currentTarget.style.backgroundColor = 'transparent';
             }}
           >
-            <ArrowLeft className="h-4 w-4" />
+            <Home className="h-4 w-4" />
           </Button>
           <h1 className="ml-2 font-semibold">Create New Vote</h1>
         </div>
@@ -147,7 +147,7 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
                 e.currentTarget.style.backgroundColor = 'transparent';
               }}
             >
-              <ArrowLeft className="h-4 w-4" />
+              <Home className="h-4 w-4" />
             </Button>
             <h1 className="ml-2 font-semibold">Vote Ready</h1>
           </div>
