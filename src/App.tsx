@@ -51,17 +51,23 @@ export default function App() {
       question: "Should we have pizza for lunch tomorrow?",
       participants: 3,
       votes: { up: 0, down: 0 },
-      isActive: false,
+      isActive: false, // Start in waiting state
       hasVoted: false
     };
     setRoom(mockRoom);
     setUserRole('participant');
-    setCurrentState('waiting');
+    setCurrentState('waiting'); // Show waiting room first
     
     // Simulate participant count increase
     setTimeout(() => {
       setRoom(prev => prev ? { ...prev, participants: prev.participants + 1 } : null);
     }, 1000);
+
+    // Auto-start voting after 3 seconds for testing
+    setTimeout(() => {
+      setRoom(prev => prev ? { ...prev, isActive: true } : null);
+      setCurrentState('voting');
+    }, 3000);
   };
 
   // Start voting

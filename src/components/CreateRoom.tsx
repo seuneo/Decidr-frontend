@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { ArrowLeft, Users, Copy, Play, QrCode, ThumbsUp, ThumbsDown } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import type { Room } from '../App';
 
 interface CreateRoomProps {
@@ -159,76 +159,80 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
 
         {/* Content */}
         <div className="flex-1 flex items-center justify-center p-4">
-          <div className="max-w-md w-full space-y-6">
+          <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg w-full space-y-4">
             {/* Question Display */}
             <div className="text-center">
-              <h2 className="text-2xl md:text-3xl font-bold text-black">{room.question}</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-black leading-relaxed">{room.question}</h2>
             </div>
 
-          {/* Share Instructions */}
-          <div className="text-center">
-            <p className="text-sm text-slate-600">Share QR or room code to join</p>
-          </div>
+            {/* Share Instructions */}
+            <div className="text-center">
+              <p className="text-sm text-slate-600">Share QR or room code to join vote</p>
+            </div>
 
-          {/* QR Code Placeholder */}
-          <div className="text-center space-y-3">
-            <img 
-              src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://voteit.app/join/ABC123" 
-              alt="QR Code to join vote"
-              className="w-48 h-48 mx-auto rounded-lg"
-            />
-            <p className="text-base font-medium text-slate-700">Scan QR code to join vote</p>
-          </div>
+            {/* QR Code Placeholder */}
+            <div className="text-center space-y-3">
+              <img 
+                src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://voteit.app/join/ABC123" 
+                alt={`QR code containing room join link: ${room.id}`}
+                className="w-48 h-48 mx-auto rounded-lg"
+              />
+            </div>
 
-          {/* Room Code */}
-          <div className="text-center space-y-4">
-            <div>
-              <div className="text-sm font-medium tracking-wider bg-white border border-[#3D405B] rounded-lg py-2 text-slate-600">
-                {room.id}
+            {/* Room Code - Fixed width container */}
+            <div className="max-w-md mx-auto space-y-4">
+              <div className="text-center">
+                <div 
+                  className="text-sm font-medium tracking-wider bg-white border-2 rounded-lg py-2 text-slate-800"
+                  style={{borderColor: '#3D405B'}}
+                >
+                  {room.id}
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={copyRoomCode}
+                  className="border-2"
+                  style={{borderColor: '#3D405B', color: '#3D405B', backgroundColor: '#F4F1DE'}}
+                >
+                  <Copy className="h-4 w-4 mr-1" />
+                  Copy Code
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={copyRoomLink}
+                  className="border-2"
+                  style={{borderColor: '#3D405B', color: '#3D405B', backgroundColor: '#F4F1DE'}}
+                >
+                  <Copy className="h-4 w-4 mr-1" />
+                  Copy Link
+                </Button>
               </div>
             </div>
-            
-            <div className="grid grid-cols-2 gap-2">
+
+            {/* Start Button - Fixed width container */}
+            <div className="max-w-md mx-auto">
               <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={copyRoomCode}
-                className="border-2"
-                style={{borderColor: '#3D405B', color: '#3D405B', backgroundColor: '#F4F1DE'}}
+                onClick={onStartVoting}
+                className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed"
+                style={{
+                  backgroundColor: '#E07A5F',
+                  borderColor: '#3D405B',
+                  color: '#F4F1DE',
+                  boxShadow: '0 4px 0 #3D405B'
+                }}
+                size="lg"
+                disabled={room.participants < 1}
               >
-                <Copy className="h-4 w-4 mr-1" />
-                Copy Code
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={copyRoomLink}
-                className="border-2"
-                style={{borderColor: '#3D405B', color: '#3D405B', backgroundColor: '#F4F1DE'}}
-              >
-                <Copy className="h-4 w-4 mr-1" />
-                Copy Link
+                <Play className="h-5 w-5 mr-2" />
+                Start Voting
               </Button>
             </div>
           </div>
-
-          {/* Start Button */}
-          <Button 
-            onClick={onStartVoting}
-            className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed"
-            style={{
-              backgroundColor: '#E07A5F',
-              borderColor: '#3D405B',
-              color: '#F4F1DE',
-              boxShadow: '0 4px 0 #3D405B'
-            }}
-            size="lg"
-            disabled={room.participants < 1}
-          >
-            <Play className="h-5 w-5 mr-2" />
-            Start Voting
-          </Button>
-        </div>
       </div>
     </div>
   );

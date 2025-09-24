@@ -1,3 +1,4 @@
+import React from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { ArrowLeft, ThumbsUp, ThumbsDown, Users, StopCircle, CheckCircle, Clock } from 'lucide-react';
@@ -17,136 +18,169 @@ export function VotingRoom({ room, userRole, userVote, onVote, onEndPoll, onGoHo
   const remainingParticipants = Math.max(0, room.participants - totalVotes);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{backgroundColor: '#F4F1DE'}}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm">
+      <div className="flex items-center justify-between p-4" style={{backgroundColor: '#F4F1DE'}}>
         <div className="flex items-center">
-          <Button variant="ghost" size="sm" onClick={onGoHome}>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={onGoHome}
+            style={{
+              backgroundColor: 'transparent',
+              color: 'inherit'
+            }}
+            className="transition-colors duration-200"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#E8E0C7';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }}
+          >
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <h1 className="ml-2 font-semibold">
-            {userRole === 'host' ? 'Managing Poll' : 'Voting'}
+            Vote
           </h1>
         </div>
         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
           <Users className="h-4 w-4" />
-          <span>{room.participants}</span>
+          <span>{room.participants} joined</span>
         </div>
       </div>
 
       {/* Content */}
       <div className="flex-1 flex items-center justify-center p-4">
-        <div className="max-w-lg w-full space-y-8">
+        <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg w-full space-y-4">
           {/* Question */}
-          <Card className="p-8 text-center border-2 border-slate-200">
-            <h2 className="text-2xl font-semibold mb-4 text-black">{room.question}</h2>
+          <div className="text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-black leading-relaxed">{room.question}</h2>
+          </div>
+
+          {/* Vote Status */}
+          <div className="text-center">
             <div className="flex items-center justify-center space-x-6 text-sm text-slate-600">
               <div className="flex items-center space-x-2">
                 <CheckCircle className="h-4 w-4" />
                 <span>{totalVotes} voted</span>
               </div>
-              {remainingParticipants > 0 && (
-                <div className="flex items-center space-x-2">
-                  <Clock className="h-4 w-4" />
-                  <span>{remainingParticipants} remaining</span>
-                </div>
-              )}
             </div>
-          </Card>
+          </div>
 
           {/* Vote Status or Voting Buttons */}
           {userVote ? (
-            <Card className="p-8 text-center space-y-6 border-2 border-slate-200">
-              <div className="w-20 h-20 bg-green-100 rounded-2xl flex items-center justify-center mx-auto">
-                <CheckCircle className="h-10 w-10 text-green-600" />
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto shadow-lg" style={{backgroundColor: '#E07A5F'}}>
+                <CheckCircle className="h-8 w-8" style={{color: '#F4F1DE'}} />
               </div>
               <div className="space-y-3">
-                <h3 className="text-xl font-semibold text-green-700">Vote Confirmed!</h3>
+                <h3 className="text-2xl font-semibold text-black">Vote Confirmed!</h3>
                 <p className="text-slate-600">
                   You voted{' '}
-                  <span className={`font-semibold ${userVote === 'up' ? 'text-green-600' : 'text-red-600'}`}>
+                  <span 
+                    className="font-semibold"
+                    style={{color: userVote === 'up' ? '#10B981' : '#EF4444'}}
+                  >
                     {userVote === 'up' ? 'YES' : 'NO'}
                   </span>
                 </p>
                 <div className="text-sm text-slate-500">
-                  {remainingParticipants > 0 
-                    ? `Waiting for ${remainingParticipants} more vote${remainingParticipants !== 1 ? 's' : ''}...`
-                    : 'All votes are in! Waiting for results...'
-                  }
+                  Waiting for results...
                 </div>
               </div>
-            </Card>
+            </div>
           ) : (
-            <div className="space-y-6">
-              <div className="text-center text-slate-600 text-lg">
+            <div className="space-y-4">
+              <div className="text-center text-slate-600 text-sm">
                 Cast your vote:
               </div>
               
-              <div className="grid grid-cols-2 gap-6">
-                <Button
-                  onClick={() => onVote('up')}
-                  className="h-36 flex-col space-y-3 bg-green-500 hover:bg-green-600 text-white border-0 rounded-2xl"
-                  size="lg"
-                >
-                  <ThumbsUp className="h-14 w-14" />
-                  <span className="text-xl font-semibold">YES</span>
-                </Button>
-                
-                <Button
-                  onClick={() => onVote('down')}
-                  className="h-36 flex-col space-y-3 bg-red-500 hover:bg-red-600 text-white border-0 rounded-2xl"
-                  size="lg"
-                >
-                  <ThumbsDown className="h-14 w-14" />
-                  <span className="text-xl font-semibold">NO</span>
-                </Button>
+              <div className="max-w-md mx-auto">
+                <div className="grid grid-cols-2 gap-4">
+                  <Button
+                    onClick={() => onVote('up')}
+                    className="flex-col space-y-3 border-2 rounded-2xl transition-all duration-300"
+                    style={{
+                      backgroundColor: '#10B981',
+                      borderColor: '#3D405B',
+                      color: '#F4F1DE',
+                      boxShadow: '0 4px 0 #3D405B',
+                      height: '180px'
+                    }}
+                    size="lg"
+                  >
+                    <ThumbsUp className="h-12 w-12" />
+                    <span className="text-lg font-bold">YES</span>
+                  </Button>
+                  
+                  <Button
+                    onClick={() => onVote('down')}
+                    className="flex-col space-y-3 border-2 rounded-2xl transition-all duration-300"
+                    style={{
+                      backgroundColor: '#EF4444',
+                      borderColor: '#3D405B',
+                      color: '#F4F1DE',
+                      boxShadow: '0 4px 0 #3D405B',
+                      height: '180px'
+                    }}
+                    size="lg"
+                  >
+                    <ThumbsDown className="h-12 w-12" />
+                    <span className="text-lg font-bold">NO</span>
+                  </Button>
+                </div>
               </div>
             </div>
           )}
 
           {/* Live Vote Count - Only for participants */}
           {totalVotes > 0 && userRole === 'participant' && (
-            <Card className="p-6 border-2 border-slate-200">
-              <div className="space-y-4">
-                <h4 className="font-medium text-center text-black">Live Results</h4>
-                <div className="grid grid-cols-2 gap-6 text-center">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-center space-x-2 text-green-600">
-                      <ThumbsUp className="h-5 w-5" />
-                      <span className="font-semibold">YES</span>
+            <div className="max-w-md mx-auto">
+              <div className="bg-white border-2 rounded-lg p-6" style={{borderColor: '#3D405B'}}>
+                <div className="space-y-4">
+                  <h4 className="font-medium text-center text-black">Live Results</h4>
+                  <div className="grid grid-cols-2 gap-6 text-center">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-center space-x-2 text-green-700">
+                        <ThumbsUp className="h-5 w-5" />
+                        <span className="font-semibold">YES</span>
+                      </div>
+                      <div className="text-3xl font-bold text-green-700">{room.votes.up}</div>
                     </div>
-                    <div className="text-3xl font-bold text-green-600">{room.votes.up}</div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-center space-x-2 text-red-600">
-                      <ThumbsDown className="h-5 w-5" />
-                      <span className="font-semibold">NO</span>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-center space-x-2 text-red-700">
+                        <ThumbsDown className="h-5 w-5" />
+                        <span className="font-semibold">NO</span>
+                      </div>
+                      <div className="text-3xl font-bold text-red-700">{room.votes.down}</div>
                     </div>
-                    <div className="text-3xl font-bold text-red-600">{room.votes.down}</div>
                   </div>
                 </div>
               </div>
-            </Card>
+            </div>
           )}
 
           {/* Host Controls */}
           {userRole === 'host' && (
-            <Button
-              onClick={onEndPoll}
-              className="w-full bg-red-500 hover:bg-red-600 text-white border-0"
-              size="lg"
-            >
-              <StopCircle className="h-5 w-5 mr-2" />
-              End Poll
-            </Button>
+            <div className="max-w-md mx-auto">
+              <Button
+                onClick={onEndPoll}
+                className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide"
+                style={{
+                  backgroundColor: '#E07A5F',
+                  borderColor: '#3D405B',
+                  color: '#F4F1DE',
+                  boxShadow: '0 4px 0 #3D405B'
+                }}
+                size="lg"
+              >
+                <StopCircle className="h-5 w-5 mr-2" />
+                End Vote
+              </Button>
+            </div>
           )}
 
-          <div className="text-center text-sm text-slate-500">
-            {userRole === 'host' 
-              ? 'You can end the poll at any time'
-              : 'The host will end the poll when ready'
-            }
-          </div>
         </div>
       </div>
     </div>
