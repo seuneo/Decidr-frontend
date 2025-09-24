@@ -134,50 +134,31 @@ export function VotingRoom({ room, userRole, userVote, onVote, onEndPoll, onGoHo
             </div>
           )}
 
-          {/* Live Vote Count - Only for participants */}
-          {totalVotes > 0 && userRole === 'participant' && (
-            <div className="max-w-md mx-auto">
-              <div className="bg-white border-2 rounded-lg p-6" style={{borderColor: '#3D405B'}}>
-                <div className="space-y-4">
-                  <h4 className="font-medium text-center text-black">Live Results</h4>
-                  <div className="grid grid-cols-2 gap-6 text-center">
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-center space-x-2 text-green-700">
-                        <ThumbsUp className="h-5 w-5" />
-                        <span className="font-semibold">YES</span>
-                      </div>
-                      <div className="text-3xl font-bold text-green-700">{room.votes.up}</div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-center space-x-2 text-red-700">
-                        <ThumbsDown className="h-5 w-5" />
-                        <span className="font-semibold">NO</span>
-                      </div>
-                      <div className="text-3xl font-bold text-red-700">{room.votes.down}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Host Controls */}
           {userRole === 'host' && (
             <div className="max-w-md mx-auto">
               <Button
                 onClick={onEndPoll}
-                className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide"
+                disabled={totalVotes === 0}
+                className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed"
                 style={{
-                  backgroundColor: '#E07A5F',
+                  backgroundColor: totalVotes === 0 ? '#E07A5F' : '#E07A5F',
                   borderColor: '#3D405B',
                   color: '#F4F1DE',
                   boxShadow: '0 4px 0 #3D405B'
                 }}
                 size="lg"
+                title={totalVotes === 0 ? "At least one vote required to end" : "End the vote and show results"}
               >
                 <StopCircle className="h-5 w-5 mr-2" />
                 End Vote
               </Button>
+              {totalVotes === 0 && (
+                <p className="text-center text-sm text-slate-500 mt-2">
+                  At least one vote required to end
+                </p>
+              )}
             </div>
           )}
 

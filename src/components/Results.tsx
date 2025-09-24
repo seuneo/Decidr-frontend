@@ -1,6 +1,7 @@
+import React from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-import { ArrowLeft, Home, BarChart3, PieChart, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { ArrowLeft, Home, BarChart3, PieChart, ThumbsUp, ThumbsDown, Users, Share2, Download } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, PieChart as RechartsPieChart, Cell } from 'recharts';
 import type { Room } from '../App';
 
@@ -10,19 +11,21 @@ interface ResultsProps {
 }
 
 export function Results({ room, onGoHome }: ResultsProps) {
-  const totalVotes = room.votes.up + room.votes.down;
-  const yesPercentage = totalVotes > 0 ? Math.round((room.votes.up / totalVotes) * 100) : 0;
-  const noPercentage = totalVotes > 0 ? Math.round((room.votes.down / totalVotes) * 100) : 0;
+  // Temporary fake data for visualization
+  const fakeVotes = { up: 8, down: 5 };
+  const totalVotes = fakeVotes.up + fakeVotes.down;
+  const yesPercentage = Math.round((fakeVotes.up / totalVotes) * 100);
+  const noPercentage = Math.round((fakeVotes.down / totalVotes) * 100);
 
   const barData = [
     {
       name: 'YES',
-      votes: room.votes.up,
+      votes: fakeVotes.up,
       percentage: yesPercentage,
     },
     {
       name: 'NO',
-      votes: room.votes.down,
+      votes: fakeVotes.down,
       percentage: noPercentage,
     },
   ];
@@ -30,179 +33,207 @@ export function Results({ room, onGoHome }: ResultsProps) {
   const pieData = [
     {
       name: 'YES',
-      value: room.votes.up,
-      color: '#22c55e',
+      value: fakeVotes.up,
+      color: '#10B981',
     },
     {
       name: 'NO',
-      value: room.votes.down,
-      color: '#ef4444',
+      value: fakeVotes.down,
+      color: '#EF4444',
     },
   ];
 
-  const winner = room.votes.up > room.votes.down ? 'YES' : room.votes.down > room.votes.up ? 'NO' : 'TIE';
+  const winner = fakeVotes.up > fakeVotes.down ? 'YES' : fakeVotes.down > fakeVotes.up ? 'NO' : 'TIE';
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{backgroundColor: '#F4F1DE'}}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm">
+      <div className="flex items-center justify-between p-4" style={{backgroundColor: '#F4F1DE'}}>
         <div className="flex items-center">
-          <Button variant="ghost" size="sm" onClick={onGoHome}>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={onGoHome}
+            style={{
+              backgroundColor: 'transparent',
+              color: 'inherit'
+            }}
+            className="transition-colors duration-200"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#E8E0C7';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }}
+          >
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <h1 className="ml-2 font-semibold">Poll Results</h1>
+          <h1 className="ml-2 font-semibold">Results</h1>
+        </div>
+        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+          <Users className="h-4 w-4" />
+          <span>{room.participants} joined</span>
         </div>
       </div>
 
       {/* Content */}
-      <div className="flex-1 p-4 space-y-8">
-        <div className="max-w-2xl mx-auto space-y-8">
-          {/* Question and Winner */}
-          <Card className="p-8 text-center space-y-6 border-2 border-slate-200">
-            <h2 className="text-2xl font-semibold text-black">{room.question}</h2>
-            
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg w-full space-y-4" data-results-container>
+          {/* Question */}
+          <div className="text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-black leading-relaxed">{room.question}</h2>
+          </div>
+
+          {/* Winner Display */}
+          <div className="text-center space-y-4">
             {winner !== 'TIE' ? (
               <div className="space-y-4">
-                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mx-auto ${
-                  winner === 'YES' ? 'bg-green-100' : 'bg-red-100'
-                }`}>
+                <div 
+                  className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto shadow-lg"
+                  style={{backgroundColor: winner === 'YES' ? '#10B981' : '#EF4444'}}
+                >
                   {winner === 'YES' ? (
-                    <ThumbsUp className="h-10 w-10 text-green-600" />
+                    <ThumbsUp className="h-8 w-8" style={{color: '#F4F1DE'}} />
                   ) : (
-                    <ThumbsDown className="h-10 w-10 text-red-600" />
+                    <ThumbsDown className="h-8 w-8" style={{color: '#F4F1DE'}} />
                   )}
                 </div>
-                <h3 className={`text-3xl font-bold ${
-                  winner === 'YES' ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {winner} WINS!
-                </h3>
-                <p className="text-slate-600 text-lg">
-                  {winner === 'YES' ? yesPercentage : noPercentage}% of votes
-                </p>
+                <div className="space-y-3">
+                  <h3 
+                    className="text-2xl font-semibold"
+                    style={{color: winner === 'YES' ? '#10B981' : '#EF4444'}}
+                  >
+                    {winner}
+                  </h3>
+                </div>
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto">
-                  <BarChart3 className="h-10 w-10 text-slate-600" />
+                <div 
+                  className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto shadow-lg"
+                  style={{backgroundColor: '#E07A5F'}}
+                >
+                  <BarChart3 className="h-8 w-8" style={{color: '#F4F1DE'}} />
                 </div>
-                <h3 className="text-3xl font-bold text-slate-600">It's a Tie!</h3>
-                <p className="text-slate-600 text-lg">
-                  Equal votes on both sides
-                </p>
+                <div className="space-y-3">
+                  <h3 className="text-2xl font-semibold text-black">TIE</h3>
+                  <p className="text-slate-600">
+                    Equal votes on both sides
+                  </p>
+                </div>
               </div>
             )}
-          </Card>
-
-          {/* Summary Stats */}
-          <div className="grid grid-cols-2 gap-6">
-            <Card className="p-6 text-center border-2 border-slate-200">
-              <div className="space-y-3">
-                <div className="flex items-center justify-center space-x-2 text-green-600">
-                  <ThumbsUp className="h-6 w-6" />
-                  <span className="font-semibold text-lg">YES</span>
-                </div>
-                <div className="text-4xl font-bold text-green-600">{room.votes.up}</div>
-                <div className="text-sm text-slate-600">{yesPercentage}%</div>
-              </div>
-            </Card>
-            
-            <Card className="p-6 text-center border-2 border-slate-200">
-              <div className="space-y-3">
-                <div className="flex items-center justify-center space-x-2 text-red-600">
-                  <ThumbsDown className="h-6 w-6" />
-                  <span className="font-semibold text-lg">NO</span>
-                </div>
-                <div className="text-4xl font-bold text-red-600">{room.votes.down}</div>
-                <div className="text-sm text-slate-600">{noPercentage}%</div>
-              </div>
-            </Card>
           </div>
 
-          {/* Bar Chart */}
-          <Card className="p-8 border-2 border-slate-200">
-            <div className="flex items-center space-x-3 mb-6">
-              <BarChart3 className="h-6 w-6 text-slate-600" />
-              <h3 className="font-semibold text-black text-lg">Vote Distribution</h3>
-            </div>
-            <div className="h-48">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barData}>
-                  <XAxis 
-                    dataKey="name" 
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis 
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <Bar 
-                    dataKey="votes" 
-                    radius={[4, 4, 0, 0]}
-                    fill={(entry) => entry.name === 'YES' ? '#22c55e' : '#ef4444'}
-                  >
-                    <Cell fill="#22c55e" />
-                    <Cell fill="#ef4444" />
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </Card>
-
-          {/* Pie Chart */}
-          {totalVotes > 0 && (
-            <Card className="p-8 border-2 border-slate-200">
-              <div className="flex items-center space-x-3 mb-6">
-                <PieChart className="h-6 w-6 text-slate-600" />
-                <h3 className="font-semibold text-black text-lg">Vote Breakdown</h3>
-              </div>
-              <div className="h-48">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RechartsPieChart>
-                    <RechartsPieChart
-                      data={pieData}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      dataKey="value"
-                      label={({ name, value, percent }) => `${name}: ${value} (${(percent * 100).toFixed(0)}%)`}
-                    >
-                      {pieData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </RechartsPieChart>
-                  </RechartsPieChart>
-                </ResponsiveContainer>
-              </div>
-            </Card>
-          )}
-
-          {/* Summary */}
-          <Card className="p-6 bg-slate-50 border-slate-200">
-            <div className="text-center space-y-3">
-              <h4 className="font-medium text-black text-lg">Poll Summary</h4>
-              <div className="text-sm text-slate-600 space-y-1">
-                <p><strong>{totalVotes}</strong> total votes from <strong>{room.participants}</strong> participants</p>
-                <p>Room code: <strong>{room.id}</strong></p>
+          {/* Combined Results */}
+          <div className="max-w-md mx-auto">
+            <div className="bg-white border-2 rounded-lg p-6" style={{borderColor: '#3D405B'}}>
+              <div className="space-y-4">
+                <div className="flex items-center justify-center space-x-3">
+                  <BarChart3 className="h-5 w-5 text-slate-600" />
+                  <h4 className="font-semibold text-black">Results</h4>
+                </div>
+                {totalVotes > 0 ? (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center space-x-2">
+                          <ThumbsUp className="h-4 w-4" style={{color: '#10B981'}} />
+                          <span className="text-sm font-medium" style={{color: '#10B981'}}>YES ({fakeVotes.up} votes)</span>
+                        </div>
+                        <span className="text-sm text-slate-600">{yesPercentage}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full" style={{height: '12px'}}>
+                        <div 
+                          style={{
+                            width: `${yesPercentage}%`,
+                            height: '12px',
+                            backgroundColor: '#10B981',
+                            borderRadius: '0px'
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center space-x-2">
+                          <ThumbsDown className="h-4 w-4" style={{color: '#EF4444'}} />
+                          <span className="text-sm font-medium" style={{color: '#EF4444'}}>NO ({fakeVotes.down} votes)</span>
+                        </div>
+                        <span className="text-sm text-slate-600">{noPercentage}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full" style={{height: '12px'}}>
+                        <div 
+                          style={{
+                            width: `${noPercentage}%`,
+                            height: '12px',
+                            backgroundColor: '#EF4444',
+                            borderRadius: '0px'
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto mb-4" style={{backgroundColor: '#E07A5F'}}>
+                      <BarChart3 className="h-8 w-8" style={{color: '#F4F1DE'}} />
+                    </div>
+                    <h4 className="text-lg font-semibold text-black mb-2">No Votes Yet</h4>
+                    <p className="text-sm text-slate-600">
+                      Results will appear here once participants start voting
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
-          </Card>
-
-          {/* Actions */}
-          <div className="space-y-3">
-            <Button 
-              onClick={onGoHome}
-              className="w-full bg-black hover:bg-slate-800 text-white border-0"
-              size="lg"
-            >
-              <Home className="h-5 w-5 mr-2" />
-              Create New Poll
-            </Button>
           </div>
 
-          <div className="text-center text-sm text-slate-500 pt-4">
-            Thanks for using VoteIt! 🗳️
+          <div className="flex items-center justify-center space-x-3">
+            <div className="text-sm text-slate-500">
+              Thanks for using <span className="font-semibold" style={{color: '#E07A5F'}}>VoteIt</span>! 🗳️
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button 
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({
+                      title: 'VoteIt Results',
+                      text: `Vote Results: ${room.question}`,
+                      url: window.location.href
+                    });
+                  } else {
+                    navigator.clipboard.writeText(window.location.href);
+                    // You could add a toast notification here
+                  }
+                }}
+                className="border-2 rounded-full transition-all duration-300"
+                style={{
+                  backgroundColor: '#E07A5F',
+                  borderColor: '#3D405B',
+                  color: '#F4F1DE',
+                  boxShadow: '0 2px 0 #3D405B'
+                }}
+                size="sm"
+                title="Share Results"
+              >
+                <Share2 className="h-4 w-4" />
+              </Button>
+              <Button 
+                onClick={onGoHome}
+                className="border-2 rounded-full transition-all duration-300"
+                style={{
+                  backgroundColor: '#E07A5F',
+                  borderColor: '#3D405B',
+                  color: '#F4F1DE',
+                  boxShadow: '0 2px 0 #3D405B'
+                }}
+                size="sm"
+                title="Go to Home"
+              >
+                <Home className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
