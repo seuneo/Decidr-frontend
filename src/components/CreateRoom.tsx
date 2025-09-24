@@ -59,7 +59,7 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
               backgroundColor: 'transparent',
               color: 'inherit'
             }}
-            className="transition-colors duration-200"
+            className="transition-colors duration-200 cursor-pointer"
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = '#E8E0C7';
             }}
@@ -89,7 +89,7 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
             </div>
 
             {/* Input and button */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
               <div className="relative flex-1">
                 <Input
                   id="question"
@@ -107,7 +107,7 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
                 onClick={handleCreateRoom}
                 disabled={!question.trim()}
                 aria-label="Create vote room with entered question"
-                className="border-2 py-4 md:py-6 px-4 md:px-6 text-sm md:text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed focus:ring-2 focus:ring-[#E07A5F]/30 focus:outline-none"
+                className="border-2 py-4 md:py-6 px-4 md:px-6 text-sm md:text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed focus:ring-2 focus:ring-[#E07A5F]/30 focus:outline-none cursor-pointer"
                 style={{
                   backgroundColor: '#E07A5F',
                   borderColor: '#3D405B',
@@ -115,6 +115,16 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
                   boxShadow: '0 4px 0 #3D405B'
                 }}
                 size="lg"
+                onMouseDown={(e) => {
+                  if (!e.currentTarget.disabled) {
+                    e.currentTarget.style.transform = 'scale(0.95)';
+                  }
+                }}
+                onMouseUp={(e) => {
+                  if (!e.currentTarget.disabled) {
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }
+                }}
               >
                 Next
               </Button>
@@ -139,7 +149,7 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
                 backgroundColor: 'transparent',
                 color: 'inherit'
               }}
-              className="transition-colors duration-200"
+              className="transition-colors duration-200 cursor-pointer"
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#E8E0C7';
               }}
@@ -195,8 +205,20 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
                   variant="outline" 
                   size="sm" 
                   onClick={copyRoomCode}
-                  className="border-2"
+                  className="border-2 cursor-pointer transition-all duration-300"
                   style={{borderColor: '#3D405B', color: '#3D405B', backgroundColor: '#F4F1DE'}}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#E8E0C7';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#F4F1DE';
+                  }}
+                  onMouseDown={(e) => {
+                    e.currentTarget.style.transform = 'scale(0.95)';
+                  }}
+                  onMouseUp={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
                 >
                   <Copy className="h-4 w-4 mr-1" />
                   Copy Code
@@ -205,8 +227,20 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
                   variant="outline" 
                   size="sm" 
                   onClick={copyRoomLink}
-                  className="border-2"
+                  className="border-2 cursor-pointer transition-all duration-300"
                   style={{borderColor: '#3D405B', color: '#3D405B', backgroundColor: '#F4F1DE'}}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#E8E0C7';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#F4F1DE';
+                  }}
+                  onMouseDown={(e) => {
+                    e.currentTarget.style.transform = 'scale(0.95)';
+                  }}
+                  onMouseUp={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
                 >
                   <Copy className="h-4 w-4 mr-1" />
                   Copy Link
@@ -218,7 +252,7 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
             <div className="max-w-md mx-auto">
               <Button 
                 onClick={onStartVoting}
-                className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed"
+                className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed cursor-pointer hover:scale-105 hover:shadow-lg"
                 style={{
                   backgroundColor: '#E07A5F',
                   borderColor: '#3D405B',
@@ -227,6 +261,26 @@ export function CreateRoom({ room, onCreateRoom, onStartVoting, onGoHome }: Crea
                 }}
                 size="lg"
                 disabled={room.participants < 1}
+                onMouseEnter={(e) => {
+                  if (!e.currentTarget.disabled) {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!e.currentTarget.disabled) {
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }
+                }}
+                onMouseDown={(e) => {
+                  if (!e.currentTarget.disabled) {
+                    e.currentTarget.style.transform = 'scale(0.95)';
+                  }
+                }}
+                onMouseUp={(e) => {
+                  if (!e.currentTarget.disabled) {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                  }
+                }}
               >
                 <Play className="h-5 w-5 mr-2" />
                 Start Voting

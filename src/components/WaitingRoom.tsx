@@ -23,7 +23,7 @@ export function WaitingRoom({ room, onGoHome }: WaitingRoomProps) {
               backgroundColor: 'transparent',
               color: 'inherit'
             }}
-            className="transition-colors duration-200"
+            className="transition-colors duration-200 cursor-pointer"
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = '#E8E0C7';
             }}

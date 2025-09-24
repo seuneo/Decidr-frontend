@@ -35,7 +35,7 @@ export function Home({ onCreateRoom, onJoinRoom }: HomeProps) {
         <div className="space-y-4 pt-4">
           <Button
             onClick={onCreateRoom}
-            className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide"
+            className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide hover:scale-105 hover:shadow-lg cursor-pointer"
             style={{
               backgroundColor: '#E07A5F',
               borderColor: '#3D405B',
@@ -43,6 +43,18 @@ export function Home({ onCreateRoom, onJoinRoom }: HomeProps) {
               boxShadow: '0 4px 0 #3D405B'
             }}
             size="lg"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+            onMouseDown={(e) => {
+              e.currentTarget.style.transform = 'scale(0.95)';
+            }}
+            onMouseUp={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
           >
             <Plus className="h-6 w-6 mr-3" />
             Start a Vote
@@ -51,7 +63,7 @@ export function Home({ onCreateRoom, onJoinRoom }: HomeProps) {
           <Button
             onClick={onJoinRoom}
             variant="outline"
-            className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide"
+            className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide hover:scale-105 hover:shadow-lg cursor-pointer"
             style={{
               backgroundColor: '#F4F1DE',
               borderColor: '#3D405B', 
@@ -59,6 +71,19 @@ export function Home({ onCreateRoom, onJoinRoom }: HomeProps) {
               boxShadow: '0 4px 0 #3D405B'
             }}
             size="lg"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#F4F1DE';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+            onMouseDown={(e) => {
+              e.currentTarget.style.transform = 'scale(0.95)';
+            }}
+            onMouseUp={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
           >
             <Users className="h-6 w-6 mr-3" />
             Join a Vote

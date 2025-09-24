@@ -45,7 +45,7 @@ export function JoinRoom({ onJoinRoom, onGoHome }: JoinRoomProps) {
             backgroundColor: 'transparent',
             color: 'inherit'
           }}
-          className="transition-colors duration-200"
+          className="transition-colors duration-200 cursor-pointer"
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = '#E8E0C7';
           }}
@@ -75,7 +75,7 @@ export function JoinRoom({ onJoinRoom, onGoHome }: JoinRoomProps) {
           </div>
 
           {/* Input and button */}
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
               <Input
                 id="roomCode"
@@ -94,7 +94,7 @@ export function JoinRoom({ onJoinRoom, onGoHome }: JoinRoomProps) {
               onClick={handleJoinRoom}
               disabled={roomCode.length < 4}
               aria-label="Join vote room with entered code"
-              className="border-2 py-4 md:py-6 px-4 md:px-6 text-sm md:text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed focus:ring-2 focus:ring-[#E07A5F]/30 focus:outline-none"
+              className="border-2 py-4 md:py-6 px-4 md:px-6 text-sm md:text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed focus:ring-2 focus:ring-[#E07A5F]/30 focus:outline-none cursor-pointer"
               style={{
                 backgroundColor: '#E07A5F',
                 borderColor: '#3D405B',
@@ -102,6 +102,16 @@ export function JoinRoom({ onJoinRoom, onGoHome }: JoinRoomProps) {
                 boxShadow: '0 4px 0 #3D405B'
               }}
               size="lg"
+              onMouseDown={(e) => {
+                if (!e.currentTarget.disabled) {
+                  e.currentTarget.style.transform = 'scale(0.95)';
+                }
+              }}
+              onMouseUp={(e) => {
+                if (!e.currentTarget.disabled) {
+                  e.currentTarget.style.transform = 'scale(1)';
+                }
+              }}
             >
               <LogIn className="h-4 w-4 md:h-5 md:w-5 mr-2" />
               Join

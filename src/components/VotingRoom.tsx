@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Home, ThumbsUp, ThumbsDown, Users, StopCircle, CheckCircle, Clock } from 'lucide-react';
@@ -14,11 +14,51 @@ interface VotingRoomProps {
 }
 
 export function VotingRoom({ room, userRole, userVote, onVote, onEndPoll, onGoHome }: VotingRoomProps) {
+  const [isVoting, setIsVoting] = useState(false);
   const totalVotes = room.votes.up + room.votes.down;
   const remainingParticipants = Math.max(0, room.participants - totalVotes);
 
+  const handleVote = async (vote: 'up' | 'down') => {
+    if (isVoting) return;
+    
+    setIsVoting(true);
+    
+    // Simulate vote processing
+    setTimeout(() => {
+      onVote(vote);
+      setIsVoting(false);
+    }, 500);
+  };
+
   return (
-    <div className="min-h-screen flex flex-col" style={{backgroundColor: '#F4F1DE'}}>
+    <>
+      <style>{`
+        .vote-button {
+          box-shadow: 0 4px 0 #3D405B !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .vote-button:hover {
+          transform: scale(1.02) !important;
+          box-shadow: 0 5px 0 #3D405B, 0 8px 20px rgba(0,0,0,0.08) !important;
+        }
+        .vote-button:active {
+          transform: scale(0.98) !important;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .end-vote-button {
+          box-shadow: 0 4px 0 #3D405B !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .end-vote-button:hover:not(:disabled) {
+          transform: scale(1.02) !important;
+          box-shadow: 0 5px 0 #3D405B, 0 8px 20px rgba(0,0,0,0.08) !important;
+        }
+        .end-vote-button:active:not(:disabled) {
+          transform: scale(0.98) !important;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+      `}</style>
+      <div className="min-h-screen flex flex-col" style={{backgroundColor: '#F4F1DE'}}>
       {/* Header */}
       <div className="flex items-center justify-between p-4" style={{backgroundColor: '#F4F1DE'}}>
         <div className="flex items-center">
@@ -30,7 +70,7 @@ export function VotingRoom({ room, userRole, userVote, onVote, onEndPoll, onGoHo
               backgroundColor: 'transparent',
               color: 'inherit'
             }}
-            className="transition-colors duration-200"
+            className="transition-colors duration-200 cursor-pointer"
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = '#E8E0C7';
             }}
@@ -99,13 +139,13 @@ export function VotingRoom({ room, userRole, userVote, onVote, onEndPoll, onGoHo
               <div className="max-w-md mx-auto">
                 <div className="grid grid-cols-2 gap-4">
                   <Button
-                    onClick={() => onVote('up')}
-                    className="flex-col space-y-3 border-2 rounded-2xl transition-all duration-300"
+                    onClick={() => handleVote('up')}
+                    disabled={isVoting}
+                    className="vote-button flex-col space-y-3 border-2 rounded-2xl transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     style={{
                       backgroundColor: '#10B981',
                       borderColor: '#3D405B',
                       color: '#F4F1DE',
-                      boxShadow: '0 4px 0 #3D405B',
                       height: '180px'
                     }}
                     size="lg"
@@ -115,13 +155,13 @@ export function VotingRoom({ room, userRole, userVote, onVote, onEndPoll, onGoHo
                   </Button>
                   
                   <Button
-                    onClick={() => onVote('down')}
-                    className="flex-col space-y-3 border-2 rounded-2xl transition-all duration-300"
+                    onClick={() => handleVote('down')}
+                    disabled={isVoting}
+                    className="vote-button flex-col space-y-3 border-2 rounded-2xl transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     style={{
                       backgroundColor: '#EF4444',
                       borderColor: '#3D405B',
                       color: '#F4F1DE',
-                      boxShadow: '0 4px 0 #3D405B',
                       height: '180px'
                     }}
                     size="lg"
@@ -141,12 +181,11 @@ export function VotingRoom({ room, userRole, userVote, onVote, onEndPoll, onGoHo
               <Button
                 onClick={onEndPoll}
                 disabled={totalVotes === 0}
-                className="w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed mb-4"
+                className="end-vote-button w-full border-2 py-6 text-lg font-bold rounded-2xl transition-all duration-300 uppercase tracking-wide disabled:bg-[#E07A5F]/30 disabled:cursor-not-allowed cursor-pointer mb-4"
                 style={{
                   backgroundColor: totalVotes === 0 ? '#E07A5F' : '#E07A5F',
                   borderColor: '#3D405B',
-                  color: '#F4F1DE',
-                  boxShadow: '0 4px 0 #3D405B'
+                  color: '#F4F1DE'
                 }}
                 size="lg"
                 title={totalVotes === 0 ? "At least one vote required to end" : "End the vote and show results"}
@@ -165,5 +204,6 @@ export function VotingRoom({ room, userRole, userVote, onVote, onEndPoll, onGoHo
         </div>
       </div>
     </div>
+    </>
   );
 }

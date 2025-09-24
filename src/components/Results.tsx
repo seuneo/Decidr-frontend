@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-import { Home, BarChart3, PieChart, ThumbsUp, ThumbsDown, Users, Share2, Download } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, PieChart as RechartsPieChart, Cell } from 'recharts';
+import { Home, BarChart3, ThumbsUp, ThumbsDown, Users, Share2 } from 'lucide-react';
 import type { Room } from '../App';
 
 interface ResultsProps {
@@ -11,39 +10,36 @@ interface ResultsProps {
 }
 
 export function Results({ room, onGoHome }: ResultsProps) {
-  // Temporary fake data for visualization
-  const fakeVotes = { up: 8, down: 5 };
-  const totalVotes = fakeVotes.up + fakeVotes.down;
-  const yesPercentage = Math.round((fakeVotes.up / totalVotes) * 100);
-  const noPercentage = Math.round((fakeVotes.down / totalVotes) * 100);
+  // Use real data from the room
+  const totalVotes = room.votes.up + room.votes.down;
+  const yesPercentage = totalVotes > 0 ? Math.round((room.votes.up / totalVotes) * 100) : 0;
+  const noPercentage = totalVotes > 0 ? Math.round((room.votes.down / totalVotes) * 100) : 0;
 
-  const barData = [
-    {
-      name: 'YES',
-      votes: fakeVotes.up,
-      percentage: yesPercentage,
-    },
-    {
-      name: 'NO',
-      votes: fakeVotes.down,
-      percentage: noPercentage,
-    },
-  ];
+  const winner = room.votes.up > room.votes.down ? 'YES' : room.votes.down > room.votes.up ? 'NO' : 'TIE';
 
-  const pieData = [
-    {
-      name: 'YES',
-      value: fakeVotes.up,
-      color: '#10B981',
-    },
-    {
-      name: 'NO',
-      value: fakeVotes.down,
-      color: '#EF4444',
-    },
-  ];
+  // Animation state
+  const [animatedYesPercentage, setAnimatedYesPercentage] = useState(0);
+  const [animatedNoPercentage, setAnimatedNoPercentage] = useState(0);
+  const [showWinner, setShowWinner] = useState(false);
 
-  const winner = fakeVotes.up > fakeVotes.down ? 'YES' : fakeVotes.down > fakeVotes.up ? 'NO' : 'TIE';
+  // Animate progress bars on component mount
+  useEffect(() => {
+    if (totalVotes > 0) {
+      // Show winner icon with a longer delay to clearly see the fade-in
+      setTimeout(() => {
+        setShowWinner(true);
+      }, 500);
+      
+      // Stagger the animations - YES first, then NO
+      setTimeout(() => {
+        setAnimatedYesPercentage(yesPercentage);
+      }, 150);
+      
+      setTimeout(() => {
+        setAnimatedNoPercentage(noPercentage);
+      }, 300);
+    }
+  }, [yesPercentage, noPercentage, totalVotes]);
 
   return (
     <div className="min-h-screen flex flex-col" style={{backgroundColor: '#F4F1DE'}}>
@@ -58,7 +54,7 @@ export function Results({ room, onGoHome }: ResultsProps) {
               backgroundColor: 'transparent',
               color: 'inherit'
             }}
-            className="transition-colors duration-200"
+            className="transition-colors duration-200 cursor-pointer"
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = '#E8E0C7';
             }}
@@ -89,8 +85,12 @@ export function Results({ room, onGoHome }: ResultsProps) {
             {winner !== 'TIE' ? (
               <div className="space-y-4">
                 <div 
-                  className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto shadow-lg"
-                  style={{backgroundColor: winner === 'YES' ? '#10B981' : '#EF4444'}}
+                  className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto shadow-lg transition-all duration-1200 ease-out"
+                  style={{
+                    backgroundColor: winner === 'YES' ? '#10B981' : '#EF4444',
+                    transform: showWinner ? 'scale(1)' : 'scale(0)',
+                    opacity: showWinner ? 1 : 0
+                  }}
                 >
                   {winner === 'YES' ? (
                     <ThumbsUp className="h-8 w-8" style={{color: '#F4F1DE'}} />
@@ -102,8 +102,12 @@ export function Results({ room, onGoHome }: ResultsProps) {
             ) : (
               <div className="space-y-4">
                 <div 
-                  className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto shadow-lg"
-                  style={{backgroundColor: '#E07A5F'}}
+                  className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto shadow-lg transition-all duration-1200 ease-out"
+                  style={{
+                    backgroundColor: '#E07A5F',
+                    transform: showWinner ? 'scale(1)' : 'scale(0)',
+                    opacity: showWinner ? 1 : 0
+                  }}
                 >
                   <BarChart3 className="h-8 w-8" style={{color: '#F4F1DE'}} />
                 </div>
@@ -131,17 +135,18 @@ export function Results({ room, onGoHome }: ResultsProps) {
                       <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-2">
                           <ThumbsUp className="h-4 w-4" style={{color: '#10B981'}} />
-                          <span className="text-sm font-medium" style={{color: '#10B981'}}>YES ({fakeVotes.up} votes)</span>
+                          <span className="text-sm font-medium" style={{color: '#10B981'}}>YES ({room.votes.up} votes)</span>
                         </div>
                         <span className="text-sm text-slate-600">{yesPercentage}%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full" style={{height: '12px'}}>
                         <div 
                           style={{
-                            width: `${yesPercentage}%`,
+                            width: `${animatedYesPercentage}%`,
                             height: '12px',
                             backgroundColor: '#10B981',
-                            borderRadius: '0px'
+                            borderRadius: '0px',
+                            transition: 'width 0.8s ease-out'
                           }}
                         ></div>
                       </div>
@@ -150,17 +155,18 @@ export function Results({ room, onGoHome }: ResultsProps) {
                       <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-2">
                           <ThumbsDown className="h-4 w-4" style={{color: '#EF4444'}} />
-                          <span className="text-sm font-medium" style={{color: '#EF4444'}}>NO ({fakeVotes.down} votes)</span>
+                          <span className="text-sm font-medium" style={{color: '#EF4444'}}>NO ({room.votes.down} votes)</span>
                         </div>
                         <span className="text-sm text-slate-600">{noPercentage}%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full" style={{height: '12px'}}>
                         <div 
                           style={{
-                            width: `${noPercentage}%`,
+                            width: `${animatedNoPercentage}%`,
                             height: '12px',
                             backgroundColor: '#EF4444',
-                            borderRadius: '0px'
+                            borderRadius: '0px',
+                            transition: 'width 0.8s ease-out'
                           }}
                         ></div>
                       </div>
@@ -199,7 +205,7 @@ export function Results({ room, onGoHome }: ResultsProps) {
                     // You could add a toast notification here
                   }
                 }}
-                className="border-2 rounded-full transition-all duration-300"
+                className="border-2 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg cursor-pointer"
                 style={{
                   backgroundColor: '#E07A5F',
                   borderColor: '#3D405B',
@@ -208,12 +214,26 @@ export function Results({ room, onGoHome }: ResultsProps) {
                 }}
                 size="sm"
                 title="Share Results"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#D2691E';
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#E07A5F';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+                onMouseDown={(e) => {
+                  e.currentTarget.style.transform = 'scale(0.95)';
+                }}
+                onMouseUp={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                }}
               >
                 <Share2 className="h-4 w-4" />
               </Button>
               <Button 
                 onClick={onGoHome}
-                className="border-2 rounded-full transition-all duration-300"
+                className="border-2 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg cursor-pointer"
                 style={{
                   backgroundColor: '#E07A5F',
                   borderColor: '#3D405B',
@@ -222,6 +242,20 @@ export function Results({ room, onGoHome }: ResultsProps) {
                 }}
                 size="sm"
                 title="Go to Home"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#D2691E';
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#E07A5F';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+                onMouseDown={(e) => {
+                  e.currentTarget.style.transform = 'scale(0.95)';
+                }}
+                onMouseUp={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                }}
               >
                 <Home className="h-4 w-4" />
               </Button>
