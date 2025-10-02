@@ -1,3 +1,5 @@
+import Button from "./Button";
+
 interface ShareRoomProps {
     roomData: any;
 }
@@ -8,7 +10,7 @@ function ShareRoom({roomData}: ShareRoomProps) {
 
     return <div className="share-room-container ">
 
-       share room
+       <Button text="Start Voting" onClick={() => {}}/>
 
     </div>
 
