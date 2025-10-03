@@ -4,13 +4,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface CreateRoomProps {
-    setCurrentRoom: any;
+    setCurrentRoomCode: any;
   }
 
-function CreateRoom({setCurrentRoom}: CreateRoomProps) {
+function CreateRoom({setCurrentRoomCode}: CreateRoomProps) {
     
     const navigate = useNavigate();
-
 
     const [question, setQuestion] = useState("");
 
@@ -35,9 +34,11 @@ function CreateRoom({setCurrentRoom}: CreateRoomProps) {
             }
       
             const roomData = await response.json();
+            setCurrentRoomCode(roomData?.room?.code);
             navigate('/share')
 
             console.log(roomData);
+            
             
           } catch (error) {
             console.error('Error creating room:', error);
@@ -46,7 +47,6 @@ function CreateRoom({setCurrentRoom}: CreateRoomProps) {
 
 
     }
-
 
     console.log(question);
 
