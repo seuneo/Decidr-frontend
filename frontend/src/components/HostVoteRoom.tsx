@@ -1,18 +1,19 @@
 import Button from "./Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {ThumbsUp, ThumbsDown, CheckCircle, StopCircle} from "lucide-react";
 
 
-interface HostVoteRoomProps {
-    roomCode: any;
-}
 
-    function HostVoteRoom ({roomCode}: HostVoteRoomProps) {
+    function HostVoteRoom () {
+
+      const {roomCode} = useParams();
 
       const [question, setQuestion] = useState("");
       const [loading, setLoading] = useState(true);
+      const [errorPage, setErrorPage] = useState(false);
   
+
       const [showVoteConfirm, setShowVoteConfirm] = useState(false);
       const [voteChoice, setVoteChoice] = useState<boolean | null>(null);
       
@@ -61,6 +62,9 @@ interface HostVoteRoomProps {
             });
       
             if (!response.ok) {
+
+              navigate('/');
+              setErrorPage(true);
               throw new Error('Failed to vote');
             }
       
@@ -74,6 +78,8 @@ interface HostVoteRoomProps {
             
           } catch (error) {
             console.error('Error voting', error);
+            navigate('/');
+            setErrorPage(true);
             
           }
 
@@ -82,6 +88,26 @@ interface HostVoteRoomProps {
 
     function endVote(){
         navigate('/results');
+    }
+
+    if(loading){
+      return <div className="container">
+        <div className="content">
+          <div className="w-full flex flex-col gap-4">
+            <div className="text-2xl font-bold text-center">Loading...</div>
+          </div>
+        </div>
+      </div>
+    }
+
+    if(errorPage){
+      return <div className="container">
+        <div className="content">
+          <div className="w-full flex flex-col gap-4">
+            <div className="text-2xl font-bold text-center">Room not found</div>
+          </div>
+        </div>
+      </div>
     }
 
     return <div className="container ">

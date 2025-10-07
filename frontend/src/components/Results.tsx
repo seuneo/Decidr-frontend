@@ -1,13 +1,9 @@
 import Button from "./Button";
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Home, BarChart3, ThumbsUp, ThumbsDown, Users, Share2 } from 'lucide-react';
 import Icon from "./Icon";
 import IconButton from "./IconButton";
-
-interface ResultsProps {
-    roomCode: any;
-}
 
 interface Results {
   message: string;
@@ -24,12 +20,14 @@ interface Results {
     };
 }
 
-function Results({roomCode}: ResultsProps) {
+function Results() {
+  const {roomCode} = useParams();
 
     const navigate = useNavigate();
 
     const [results, setResults] = useState<Results | null>(null);
     const [loading, setLoading] = useState(true);
+    const [errorPage, setErrorPage] = useState(false);
 
    
     useEffect(() => {
@@ -51,6 +49,8 @@ function Results({roomCode}: ResultsProps) {
             });
       
             if (!response.ok) {
+              navigate('/');
+              setErrorPage(true);
               throw new Error('Failed to get results');
             }
       
@@ -62,7 +62,8 @@ function Results({roomCode}: ResultsProps) {
             
           } catch (error) {
             console.error('Error getting results:', error);
-            
+            navigate('/');
+            setErrorPage(true);
           }
 
 
@@ -75,10 +76,24 @@ function Results({roomCode}: ResultsProps) {
     console.log(results);
 
     if(loading){
-        return <div>Loading...</div>;
+        return <div className="container">
+        <div className="content">
+          <div className="w-full flex flex-col gap-4">
+            <div className="text-2xl font-bold text-center">Loading...</div>
+          </div>
+        </div>
+      </div>;
     }
 
-    
+    if(errorPage){
+      return <div className="container">
+        <div className="content">
+          <div className="w-full flex flex-col gap-4">
+            <div className="text-2xl font-bold text-center">Room not found</div>
+          </div>
+        </div>
+      </div>
+    }
 
     return <div className="container">
 

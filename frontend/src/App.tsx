@@ -24,9 +24,9 @@ function App() {
         <Route path="/create" element={<CreateRoom setCurrentRoomCode={setCurrentRoomCode}/>} />
         <Route path="/join" element={<JoinRoom />} />
         <Route path="/share" element={<ShareRoom roomCode={roomCode}/>} />
-        <Route path="/host-vote" element={<HostVoteRoom roomCode={roomCode}/>} />
+        <Route path="/host/:roomCode" element={<HostVoteRoom />} />
         <Route path="/join/:roomCode" element={<VoteRoom/>} />
-        <Route path="/results" element={<Results roomCode={roomCode}/>} />
+        <Route path="/results/:roomCode" element={<Results/>} />
       </Routes>
       <Toaster/>
     </div>
