@@ -2,7 +2,7 @@ import Button from "./Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {ThumbsUp, ThumbsDown, CheckCircle, StopCircle} from "lucide-react";
-
+import UsersJoined from "./UsersJoined";
 
 
     function HostVoteRoom () {
@@ -113,6 +113,8 @@ import {ThumbsUp, ThumbsDown, CheckCircle, StopCircle} from "lucide-react";
     return <div className="container ">
 
       <div className="content">
+
+        <UsersJoined />
 
         <div className="w-full flex flex-col gap-4">
 

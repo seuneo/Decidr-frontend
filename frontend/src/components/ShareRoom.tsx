@@ -5,6 +5,7 @@ import { Copy, Play } from "lucide-react";
 import QRCode from "qrcode";
 import {toast} from 'sonner';
 import HomeButton from "./HomeButton";
+import UsersJoined from "./UsersJoined";
 
 function ShareRoom() {
   const {roomCode} = useParams();
@@ -63,7 +64,7 @@ function ShareRoom() {
               width: 300,
               margin: 2,
               color: {
-                dark: '#3D405B',  // Dark color
+                dark: '#000000',  // Dark color
                 light: '#FFFFFF'  // Light color
               }
             });
@@ -117,6 +118,7 @@ function ShareRoom() {
     return <div className="container ">
         <div className="content">
           <HomeButton />
+          <UsersJoined />
 
         <div className="text-2xl font-bold text-center">{question}</div>
         <div className="text-slate-600 text-sm text-center">Share QR or room code to join vote</div>

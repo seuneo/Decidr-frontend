@@ -16,6 +16,7 @@ function Home() {
 
     return <div className="container ">
         <div className="content">
+       
         <Logo />
         <div className="text-2sm text-black font-bold tracking-tight">
             VoteIt</div>

@@ -1,5 +1,5 @@
 import { useState} from 'react'
-import {Route, Routes} from "react-router-dom"
+import {Navigate, Route, Routes} from "react-router-dom"
 import './App.css'
 import {Toaster} from 'sonner';
 
@@ -27,6 +27,7 @@ function App() {
         <Route path="/host/:roomCode" element={<HostVoteRoom />} />
         <Route path="/join/:roomCode" element={<VoteRoom/>} />
         <Route path="/results/:roomCode" element={<Results/>} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster/>
     </div>
