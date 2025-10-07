@@ -15,6 +15,7 @@ function ShareRoom() {
     const [errorPage, setErrorPage] = useState(false);
 
     const [qrCodeURL, setQrCodeURL] = useState("");
+    const [userCount, setUserCount] = useState(0);
     const navigate = useNavigate();
 
     function startVoting() {
@@ -118,7 +119,7 @@ function ShareRoom() {
     return <div className="container ">
         <div className="content">
           <HomeButton />
-          <UsersJoined />
+          <UsersJoined userCount={userCount}/>
 
         <div className="text-2xl font-bold text-center">{question}</div>
         <div className="text-slate-600 text-sm text-center">Share QR or room code to join vote</div>

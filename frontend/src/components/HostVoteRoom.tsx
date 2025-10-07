@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {ThumbsUp, ThumbsDown, CheckCircle, StopCircle} from "lucide-react";
 import UsersJoined from "./UsersJoined";
-
+import {io, Socket} from "socket.io-client";
 
     function HostVoteRoom () {
 
@@ -14,10 +14,41 @@ import UsersJoined from "./UsersJoined";
       const [errorPage, setErrorPage] = useState(false);
   
 
-      const [showVoteConfirm, setShowVoteConfirm] = useState(false);
+      const [showVoteConfirm, setShowVoteConfirm] = useState<boolean>(false);
       const [voteChoice, setVoteChoice] = useState<boolean | null>(null);
       
       const navigate = useNavigate();
+
+      const [userCount, setUserCount] = useState(0);
+      const [socket, setSocket] = useState<Socket | null>(null);
+
+      useEffect(() => {
+        const newSocket = io('http://localhost:3001');
+        
+        // Join the room when connected
+        newSocket.emit('join_room', roomCode);
+        
+        // Listen for user count updates
+        newSocket.on('user_count_update', (count) => {
+          setUserCount(count);
+        });
+    
+        // Listen for connection events
+        newSocket.on('connect', () => {
+          console.log('Connected to server');
+        });
+    
+        newSocket.on('disconnect', () => {
+          console.log('Disconnected from server');
+        });
+    
+        setSocket(newSocket);
+    
+        // Cleanup on unmount
+        return () => {
+          newSocket.disconnect();
+        };
+      }, [roomCode]);
 
     useEffect(() => {
       if(roomCode !== null){
@@ -114,19 +145,16 @@ import UsersJoined from "./UsersJoined";
 
       <div className="content">
 
-        <UsersJoined />
+        <UsersJoined userCount={userCount}/>
 
         <div className="w-full flex flex-col gap-4">
-
-        
-
-        
+       
       <div className="text-2xl font-bold text-center">{question}?</div>
         
         <div className="text-slate-600 text-sm text-center">
           <div className="flex items-center justify-center space-x-2">
             <CheckCircle className="h-4 w-4" />
-            <span>10 voted</span>
+            <span>{userCount} voted</span>
           </div>
         </div>
 
