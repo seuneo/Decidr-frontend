@@ -127,13 +127,13 @@ function Results() {
 
                   </div>
                   <div className="text-slate-600">
-                    {results ? results?.results?.yes / results?.results?.total * 100 : 0}%
+                    {results ? Math.round(results?.results?.yes / results?.results?.total * 100) : 0}%
                   </div>
 
                 </div>
                 <div className="chart-line bg-[#10B981]"
                 style={{
-                  width: `${results ? results?.results?.yes / results?.results?.total * 100 : 0}%`
+                  width: `${results ? Math.round(results?.results?.yes / results?.results?.total * 100) : 0}%`
                 }}
                 >
 
@@ -150,13 +150,13 @@ function Results() {
 
                   </div>
                   <div className="text-slate-600">
-                    {results ? results?.results?.no / results?.results?.total * 100 : 0}%
+                    {results ? Math.round(results?.results?.no / results?.results?.total * 100) : 0}%
                   </div>
 
                 </div>
                 <div className="chart-line bg-[#EF4444] w-full"
                 style={{
-                  width: `${results ? results?.results?.no / results?.results?.total * 100 : 0}%`
+                  width: `${results ? Math.round(results?.results?.no / results?.results?.total * 100) : 0}%`
                 }}
                 >
 
