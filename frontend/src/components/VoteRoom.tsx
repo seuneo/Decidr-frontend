@@ -2,7 +2,7 @@ import Button from "./Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {ThumbsUp, ThumbsDown, CheckCircle} from "lucide-react";
-
+import HomeButton from "./HomeButton";
 
     function VoteRoom () {
       const {roomCode} = useParams();
@@ -105,6 +105,7 @@ import {ThumbsUp, ThumbsDown, CheckCircle} from "lucide-react";
 
     return <div className="container">
       <div className="content">
+      <HomeButton />
     <div className="w-full flex flex-col gap-4">      
       <div className="text-2xl font-bold text-center">{question}?</div>
         

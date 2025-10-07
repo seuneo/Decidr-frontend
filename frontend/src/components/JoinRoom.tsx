@@ -5,6 +5,7 @@ import { useState } from "react";
 import { LogIn } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {toast} from "sonner";
+import HomeButton from "./HomeButton";
 
 function JoinRoom() {
 
@@ -45,6 +46,7 @@ function JoinRoom() {
 
     return <div className="container ">
         <div className="content">
+            <HomeButton />
             <Logo/>
             <div className="text-2xl font-bold">Join a Vote</div>
             <div className="text-slate-600 text-sm text-center">Enter the room code to join the vote</div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Copy, Play } from "lucide-react";
 import QRCode from "qrcode";
 import {toast} from 'sonner';
+import HomeButton from "./HomeButton";
 
 interface ShareRoomProps {
     roomCode: any;
@@ -18,7 +19,7 @@ function ShareRoom({roomCode}: ShareRoomProps) {
     const navigate = useNavigate();
 
     function startVoting() {
-        navigate('/host-vote');
+        navigate(`/host/${roomCode}`);
     }
 
     useEffect(() => {
@@ -92,6 +93,7 @@ function ShareRoom({roomCode}: ShareRoomProps) {
     console.log(roomCode);
     return <div className="container ">
         <div className="content">
+          <HomeButton />
 
         <div className="text-2xl font-bold text-center">{question}</div>
         <div className="text-slate-600 text-sm text-center">Share QR or room code to join vote</div>

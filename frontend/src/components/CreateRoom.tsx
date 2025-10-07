@@ -3,6 +3,7 @@ import Button from "./Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextBox from "./TextBox";
+import HomeButton from "./HomeButton";
 
 interface CreateRoomProps {
     setCurrentRoomCode: any;
@@ -53,7 +54,7 @@ function CreateRoom({setCurrentRoomCode}: CreateRoomProps) {
 
     return <div className="container ">
       <div className="content">
-
+      <HomeButton />
        <Logo />
        <div className="text-2xl font-bold">What's your question?</div>
        <div className="text-slate-600 text-sm text-center">Enter a yes or no question. You'll be able to share it once created.</div>

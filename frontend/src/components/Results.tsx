@@ -1,9 +1,9 @@
-import Button from "./Button";
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Home, BarChart3, ThumbsUp, ThumbsDown, Users, Share2 } from 'lucide-react';
 import Icon from "./Icon";
 import IconButton from "./IconButton";
+import HomeButton from "./HomeButton";
 
 interface Results {
   message: string;
@@ -96,6 +96,7 @@ function Results() {
     }
 
     return <div className="container">
+      <HomeButton />
 
         <div className="content">
 
