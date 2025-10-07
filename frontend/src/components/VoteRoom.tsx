@@ -1,10 +1,13 @@
 import Button from "./Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {ThumbsUp, ThumbsDown, CheckCircle} from "lucide-react";
+import {ThumbsUp, ThumbsDown, CheckCircle, Clock} from "lucide-react";
 import HomeButton from "./HomeButton";
 import UsersJoined from "./UsersJoined";
 import {io, Socket} from "socket.io-client";
+import { toast } from 'sonner';
+
+import Icon from "./Icon";
 
     function VoteRoom () {
       const {roomCode} = useParams();
@@ -21,6 +24,8 @@ import {io, Socket} from "socket.io-client";
       const [userCount, setUserCount] = useState(0);
       const [voteCount, setVoteCount] = useState(0);
       const [socket, setSocket] = useState<Socket | null>(null);
+
+      const [showWaitingRoom, setShowWaitingRoom] = useState(true);
 
       useEffect(() => {
         const newSocket = io('http://localhost:3001');
@@ -40,6 +45,26 @@ import {io, Socket} from "socket.io-client";
         // Listen for connection events
         newSocket.on('connect', () => {
           console.log('Connected to server');
+        });
+
+        //listen for vote started
+        newSocket.on('vote_started', (data) => {
+          console.log('Vote started:', data.message);
+          
+          setShowWaitingRoom(false);
+        });
+
+        //listen for vote ended 
+        newSocket.on('vote_ended', (data) => {
+          console.log('Vote ended:', data.message);
+          
+          // Show a toast or message
+          toast.success('Host has ended the vote. Redirecting to results...');
+          
+          // Redirect to results page after a short delay
+          setTimeout(() => {
+            navigate(`/results/${roomCode}`);
+          }, 1500);
         });
     
         newSocket.on('disconnect', () => {
@@ -143,6 +168,17 @@ import {io, Socket} from "socket.io-client";
           <div className="w-full flex flex-col gap-4">
             <div className="text-2xl font-bold text-center">Room not found</div>
           </div>
+        </div>
+      </div>
+    }
+
+    if(showWaitingRoom){
+      return <div className="container">
+        <div className="content">
+          <div className="text-xl font-bold text-center">{question}?</div>
+          <Icon icon={<Clock className="h-8 w-8" />} className="bg-[#E07A5F]" />
+          <div className=" font-semibold text-center">Waiting for Host</div>
+          <div className="text-slate-600 text-sm text-center">The vote will start when the host begins.</div>       
         </div>
       </div>
     }

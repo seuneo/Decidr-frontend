@@ -128,7 +128,11 @@ import {io, Socket} from "socket.io-client";
     }
 
     function endVote(){
-        navigate('/results');
+      if (socket) {
+        socket.emit('end_vote', roomCode);
+        // Navigate to results page
+        navigate(`/results/${roomCode}`);
+      }
     }
 
     if(loading){

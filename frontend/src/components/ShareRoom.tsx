@@ -6,6 +6,7 @@ import QRCode from "qrcode";
 import {toast} from 'sonner';
 import HomeButton from "./HomeButton";
 import UsersJoined from "./UsersJoined";
+import {io, Socket} from "socket.io-client";
 
 function ShareRoom() {
   const {roomCode} = useParams();
@@ -16,10 +17,45 @@ function ShareRoom() {
 
     const [qrCodeURL, setQrCodeURL] = useState("");
     const [userCount, setUserCount] = useState(0);
+    const [socket, setSocket] = useState<Socket | null>(null);
+
+
     const navigate = useNavigate();
 
+    useEffect(() => {
+      const newSocket = io('http://localhost:3001');
+      
+      // Join the room when connected
+      newSocket.emit('join_room', roomCode);
+      
+      // Listen for user count updates
+      newSocket.on('user_count_update', (count) => {
+        setUserCount(count);
+      });
+  
+      // Listen for connection events
+      newSocket.on('connect', () => {
+        console.log('Connected to server');
+      });
+  
+      newSocket.on('disconnect', () => {
+        console.log('Disconnected from server');
+      });
+  
+      setSocket(newSocket);
+  
+      // Cleanup on unmount
+      return () => {
+        newSocket.disconnect();
+      };
+    }, [roomCode]);
+
     function startVoting() {
+      if (socket) {
+        socket.emit('start_vote', roomCode);
         navigate(`/host/${roomCode}`);
+      }
+        
     }
 
     useEffect(() => {
