@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import {Route, Routes, Navigate} from "react-router-dom"
 import './App.css'
+import {Toaster} from 'sonner';
 
 //components
 import Home from './components/Home';
@@ -27,6 +28,7 @@ function App() {
         <Route path="/vote" element={<VoteRoom />} />
         <Route path="/results" element={<Results roomCode={roomCode}/>} />
       </Routes>
+      <Toaster/>
     </div>
   )
 }

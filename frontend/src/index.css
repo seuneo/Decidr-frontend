@@ -27,19 +27,27 @@ body {
   background-color: #F4F1DE;
 }
 
-.home-container{
-  width: 100vw;
-  height: 100vh;
+.container{
+  
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.content{
+  width: 100%;
+  max-width: 28rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
 }
 
 .logo{
-  background-color: #E07A5F;
-  width: 5rem;
-  height: 5rem;
+  color: #F4F1DE;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,11 +60,16 @@ body {
   color: #F4F1DE;
 }
 
+.home-buttons{
+  
+}
 
 .button{
   border-style: solid;
   border-color:#3D405B ;
   box-shadow: 0 4px 0 #3D405B;
+  
+
 }
 
 .button-primary{
@@ -69,4 +82,49 @@ body {
   background-color: #F4F1DE;
   color: #3D405B;
  
+}
+
+
+.question-box, .code-box{
+  border-color: #3D405B;
+}
+
+.copy-buttons button{
+  font-size:0.875rem;
+  width: 100%;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #3D405B;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  color: #3D405B;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  &:hover{
+    background-color: #E8E0C7;
+  }
+}
+
+.vote-buttons button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: #F4F1DE;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.vote-buttons button span{
+  margin-right: 0;
+}
+
+.chart-line{
+  height: 12px;
 }

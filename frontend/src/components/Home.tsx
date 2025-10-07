@@ -14,8 +14,8 @@ function Home() {
         navigate('/join');
     }
 
-    return <div className="home-container ">
-
+    return <div className="container ">
+        <div className="content">
         <Logo />
         <div className="text-2sm text-black font-bold tracking-tight">
             VoteIt</div>
@@ -24,11 +24,11 @@ function Home() {
                 Skip the debate, let's vote!
          </div>
 
-        <div className="home-buttons">
-                <Button className="button-primary" text="Start a Vote" onClick={startVote} icon={<Plus className="h-6 w-6" />} />
-                <Button className="button-secondary" text="Join a Vote" onClick={joinVote} icon={<Users className="h-6 w-6" />}/>
+        <div className="home-buttons flex flex-col w-full gap-4 ">
+                <Button className="button-primary" text="Start a Vote" onClick={startVote} icon={<Plus className="h-4 w-4" />} />
+                <Button className="button-secondary" text="Join a Vote" onClick={joinVote} icon={<Users className="h-4 w-4" />}/>
         </div>
-
+        </div>
     </div>
 
 }

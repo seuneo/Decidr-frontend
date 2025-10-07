@@ -1,16 +1,19 @@
 
 interface ButtonProps {
-    text: string;
+    text?: string;
     onClick: () => void;
     icon?: React.ReactNode;
     className?: string; // Optional icon
+    disabled?: boolean;
   }
 
-function Button({ text, onClick, icon, className }: ButtonProps) {
+function Button({ text, onClick, icon, className, disabled }: ButtonProps) {
 
-    return <button className={`button ${className} w-fulluppercase font-bold border-2 py-6 text-lg rounded-2xl`} onClick={onClick}>
-        <span className="mr-3">{icon}</span>
-        {text}
+    return <button disabled={disabled} className={`button ${className} flex items-center justify-center py-1 w-full uppercase font-bold border-2 text-lg rounded-2xl whitespace-nowrap cursor-pointer`} onClick={onClick}>
+        <span className="mr-2">{icon}</span>
+        
+           {text} 
+        
     </button>
 }
 

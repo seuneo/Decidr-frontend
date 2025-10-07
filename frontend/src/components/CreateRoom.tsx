@@ -2,6 +2,7 @@ import Logo from "./Logo";
 import Button from "./Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TextBox from "./TextBox";
 
 interface CreateRoomProps {
     setCurrentRoomCode: any;
@@ -50,12 +51,15 @@ function CreateRoom({setCurrentRoomCode}: CreateRoomProps) {
 
     console.log(question);
 
-    return <div className="create-room-container ">
+    return <div className="container ">
+      <div className="content">
 
        <Logo />
-       <input value={question} name="question" type="text" placeholder="Should we order pizza for lunch?" onChange={handleChange}/>
-       <Button text="next" onClick={createRoom}/>
-
+       <div className="text-2xl font-bold">What's your question?</div>
+       <div className="text-slate-600 text-sm text-center">Enter a yes or no question. You'll be able to share it once created.</div>
+       <TextBox className="question-box text-sm border-2" value={question} placeholder="e.g., Should we order pizza for lunch?" onChange={handleChange}/>
+       <Button disabled={!question.trim()} className="text-sm py-2 button-primary disabled:opacity-50 disabled:pointer-events-none" text="next" onClick={createRoom}/>
+</div>
     </div>
 
 }
