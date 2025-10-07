@@ -19,6 +19,7 @@ import {io, Socket} from "socket.io-client";
       const navigate = useNavigate();
 
       const [userCount, setUserCount] = useState(0);
+      const [voteCount, setVoteCount] = useState(0);
       const [socket, setSocket] = useState<Socket | null>(null);
 
       useEffect(() => {
@@ -30,6 +31,10 @@ import {io, Socket} from "socket.io-client";
         // Listen for user count updates
         newSocket.on('user_count_update', (count) => {
           setUserCount(count);
+        });
+
+        newSocket.on('vote_count_update', (count) => {
+          setVoteCount(count);
         });
     
         // Listen for connection events
@@ -107,6 +112,11 @@ import {io, Socket} from "socket.io-client";
             console.log(roomData);
             setVoteChoice(choice);
             setShowVoteConfirm(true);
+
+            // Emit vote event to Socket.io
+        if (socket) {
+          socket.emit('user_voted', roomCode);
+        }
             
             
           } catch (error) {
@@ -147,7 +157,7 @@ import {io, Socket} from "socket.io-client";
         <div className="text-slate-600 text-sm text-center">
           <div className="flex items-center justify-center space-x-2">
             <CheckCircle className="h-4 w-4" />
-            <span>{userCount} voted</span>
+            <span>{voteCount} voted</span>
           </div>
         </div>
 
