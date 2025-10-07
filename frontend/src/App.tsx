@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import {Route, Routes, Navigate} from "react-router-dom"
+import { useState} from 'react'
+import {Route, Routes} from "react-router-dom"
 import './App.css'
 import {Toaster} from 'sonner';
 
@@ -23,7 +23,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<CreateRoom setCurrentRoomCode={setCurrentRoomCode}/>} />
         <Route path="/join" element={<JoinRoom />} />
-        <Route path="/share" element={<ShareRoom roomCode={roomCode}/>} />
+        <Route path="/share/:roomCode" element={<ShareRoom/>} />
         <Route path="/host/:roomCode" element={<HostVoteRoom />} />
         <Route path="/join/:roomCode" element={<VoteRoom/>} />
         <Route path="/results/:roomCode" element={<Results/>} />

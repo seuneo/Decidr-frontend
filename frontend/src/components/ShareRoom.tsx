@@ -1,19 +1,17 @@
 import Button from "./Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Copy, Play } from "lucide-react";
 import QRCode from "qrcode";
 import {toast} from 'sonner';
 import HomeButton from "./HomeButton";
 
-interface ShareRoomProps {
-    roomCode: any;
-}
-
-function ShareRoom({roomCode}: ShareRoomProps) {
+function ShareRoom() {
+  const {roomCode} = useParams();
 
     const [question, setQuestion] = useState("");
     const [loading, setLoading] = useState(true);
+    const [errorPage, setErrorPage] = useState(false);
 
     const [qrCodeURL, setQrCodeURL] = useState("");
     const navigate = useNavigate();
@@ -26,6 +24,7 @@ function ShareRoom({roomCode}: ShareRoomProps) {
         if(roomCode !== null){
             getQuestion();
             generateQrCode();
+            setLoading(false);
         }
     }, [roomCode]);
 
@@ -40,6 +39,8 @@ function ShareRoom({roomCode}: ShareRoomProps) {
         }); 
         
         if (!response.ok) {
+            navigate('/');
+            setErrorPage(true);
             throw new Error('Failed to get question');
         }
 
@@ -49,7 +50,8 @@ function ShareRoom({roomCode}: ShareRoomProps) {
             
         } catch (error) {
             console.error('Error getting question:', error);
-            
+            navigate('/');
+            setErrorPage(true);
         }  
         
     }
@@ -91,6 +93,27 @@ function ShareRoom({roomCode}: ShareRoomProps) {
 
     
     console.log(roomCode);
+
+    if(loading){
+      return <div className="container">
+        <div className="content">
+          <div className="w-full flex flex-col gap-4">
+            <div className="text-2xl font-bold text-center">Loading...</div>
+          </div>
+        </div>
+      </div>
+    }
+
+    if(errorPage){
+      return <div className="container">
+        <div className="content">
+          <div className="w-full flex flex-col gap-4">
+            <div className="text-2xl font-bold text-center">Room not found</div>
+          </div>
+        </div>
+      </div>
+    }
+
     return <div className="container ">
         <div className="content">
           <HomeButton />
