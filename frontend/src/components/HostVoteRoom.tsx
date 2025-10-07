@@ -68,6 +68,7 @@ interface HostVoteRoomProps {
             //setCurrentRoom(roomData);
 
             console.log(roomData);
+            setVoteChoice(choice);
             setShowVoteConfirm(true);
             
             
@@ -117,7 +118,7 @@ interface HostVoteRoomProps {
           </div>
           <div className="text-2xl font-semibold text-center"> Vote Confirmed!</div>
           <div className="text-slate-600"> You voted{' '}
-                      <span className={`font-semibold uppercase ${voteChoice ? 'text-[#10B981]' : 'text-[#EF4444]'}`}>{voteChoice ? 'Yes' : 'No'}</span>
+                      <span className={`font-semibold uppercase ${voteChoice ? 'text-[#10B981]' : 'text-[#EF4444]'}`}>{voteChoice === true ? 'Yes' : 'No'}</span>
           </div>
 
           <div className="text-slate-600"> Waiting for results...</div>

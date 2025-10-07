@@ -25,7 +25,7 @@ function App() {
         <Route path="/join" element={<JoinRoom />} />
         <Route path="/share" element={<ShareRoom roomCode={roomCode}/>} />
         <Route path="/host-vote" element={<HostVoteRoom roomCode={roomCode}/>} />
-        <Route path="/vote" element={<VoteRoom />} />
+        <Route path="/join/:roomCode" element={<VoteRoom/>} />
         <Route path="/results" element={<Results roomCode={roomCode}/>} />
       </Routes>
       <Toaster/>

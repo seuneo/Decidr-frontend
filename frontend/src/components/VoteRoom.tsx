@@ -1,16 +1,15 @@
 import Button from "./Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {ThumbsUp, ThumbsDown, CheckCircle} from "lucide-react";
 
-interface VoteRoomProps {
-    roomCode: any;
-}
 
-    function VoteRoom ({roomCode}: VoteRoomProps) {
+    function VoteRoom () {
+      const {roomCode} = useParams();
 
       const [question, setQuestion] = useState("");
       const [loading, setLoading] = useState(true);
+      const [errorPage, setErrorPage] = useState(false);
   
       const [showVoteConfirm, setShowVoteConfirm] = useState(false);
       const [voteChoice, setVoteChoice] = useState<boolean | null>(null);
@@ -20,6 +19,7 @@ interface VoteRoomProps {
     useEffect(() => {
       if(roomCode !== null){
           getQuestion();
+          
       }
   }, [roomCode]);
 
@@ -34,7 +34,10 @@ interface VoteRoomProps {
     }); 
     
     if (!response.ok) {
+        navigate('/');
+        setErrorPage(true);
         throw new Error('Failed to get question');
+        
     }
 
     const roomData = await response.json();
@@ -43,7 +46,8 @@ interface VoteRoomProps {
         
     } catch (error) {
         console.error('Error getting question:', error);
-        
+        navigate('/');
+        setErrorPage(true);
     }  
     
 }
@@ -67,6 +71,7 @@ interface VoteRoomProps {
             //setCurrentRoom(roomData);
 
             console.log(roomData);
+            setVoteChoice(choice);
             setShowVoteConfirm(true);
             
             
@@ -76,6 +81,26 @@ interface VoteRoomProps {
           }
 
 
+    }
+
+    if(loading){
+      return <div className="container">
+        <div className="content">
+          <div className="w-full flex flex-col gap-4">
+            <div className="text-2xl font-bold text-center">Loading...</div>
+          </div>
+        </div>
+      </div>
+    }
+
+    if(errorPage){
+      return <div className="container">
+        <div className="content">
+          <div className="w-full flex flex-col gap-4">
+            <div className="text-2xl font-bold text-center">Room not found</div>
+          </div>
+        </div>
+      </div>
     }
 
     return <div className="container">
@@ -106,7 +131,7 @@ interface VoteRoomProps {
           </div>
           <div className="text-2xl font-semibold text-center"> Vote Confirmed!</div>
           <div className="text-slate-600"> You voted{' '}
-                      <span className={`font-semibold uppercase ${voteChoice ? 'text-[#10B981]' : 'text-[#EF4444]'}`}>{voteChoice ? 'Yes' : 'No'}</span>
+                      <span className={`font-semibold uppercase ${voteChoice ? 'text-[#10B981]' : 'text-[#EF4444]'}`}>{voteChoice === true ? 'Yes' : 'No'}</span>
           </div>
 
           <div className="text-slate-600"> Waiting for results...</div>
