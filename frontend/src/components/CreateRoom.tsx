@@ -20,7 +20,7 @@ function CreateRoom() {
     async function createRoom(){
 
         try {
-            const response = await fetch('http://localhost:3001/api/rooms', {
+            const response = await fetch('https://voteit.onrender.com/api/rooms', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

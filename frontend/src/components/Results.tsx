@@ -41,7 +41,7 @@ function Results() {
     async function getResults(){
 
         try {
-            const response = await fetch(`http://localhost:3001/api/rooms/${roomCode}/results`, {
+            const response = await fetch(`https://voteit.onrender.com/api/rooms/${roomCode}/results`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',

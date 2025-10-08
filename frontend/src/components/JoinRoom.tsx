@@ -21,7 +21,7 @@ function JoinRoom() {
     async function joinRoom(){
         if(roomCode.trim() && roomCode.trim().length >= 4){
             try{
-                const response = await fetch(`http://localhost:3001/api/rooms/${roomCode}`, {
+                const response = await fetch(`https://voteit.onrender.com/api/rooms/${roomCode}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

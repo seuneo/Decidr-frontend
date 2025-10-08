@@ -23,7 +23,7 @@ function ShareRoom() {
     const navigate = useNavigate();
 
     useEffect(() => {
-      const newSocket = io('http://localhost:3001');
+      const newSocket = io('https://voteit.onrender.com');
       
       // Join the room when connected
       newSocket.emit('join_room', roomCode);
@@ -69,7 +69,7 @@ function ShareRoom() {
     async function getQuestion(){
         try {
 
-          const response = await fetch(`http://localhost:3001/api/rooms/${roomCode}`, {
+          const response = await fetch(`https://voteit.onrender.com/api/rooms/${roomCode}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

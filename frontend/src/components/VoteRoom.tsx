@@ -28,7 +28,7 @@ import Icon from "./Icon";
       const [showWaitingRoom, setShowWaitingRoom] = useState(true);
 
       useEffect(() => {
-        const newSocket = io('http://localhost:3001');
+        const newSocket = io('https://voteit.onrender.com');
         
         // Join the room when connected
         newSocket.emit('join_room', roomCode);
@@ -90,7 +90,7 @@ import Icon from "./Icon";
   async function getQuestion(){
     try {
 
-      const response = await fetch(`http://localhost:3001/api/rooms/${roomCode}`, {
+      const response = await fetch(`https://voteit.onrender.com/api/rooms/${roomCode}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ import Icon from "./Icon";
     async function vote({choice}: {choice: boolean}){
 
         try {
-            const response = await fetch(`http://localhost:3001/api/rooms/${roomCode}/vote`, {
+            const response = await fetch(`https://voteit.onrender.com/api/rooms/${roomCode}/vote`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
