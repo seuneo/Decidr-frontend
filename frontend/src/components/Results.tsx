@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Home, BarChart3, ThumbsUp, ThumbsDown, Users, Share2 } from 'lucide-react';
+import { Home, BarChart3, ThumbsUp, ThumbsDown, Share2 } from 'lucide-react';
 import Icon from "./Icon";
 import IconButton from "./IconButton";
 import HomeButton from "./HomeButton";

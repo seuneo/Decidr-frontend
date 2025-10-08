@@ -1,4 +1,3 @@
-import { useState} from 'react'
 import {Navigate, Route, Routes} from "react-router-dom"
 import './App.css'
 import {Toaster} from 'sonner';
@@ -14,14 +13,11 @@ import Results from './components/Results';
 
 function App() {
 
-  const [roomCode, setCurrentRoomCode] = useState(null);
- 
-
   return (
     <div className="app-container">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/create" element={<CreateRoom setCurrentRoomCode={setCurrentRoomCode}/>} />
+        <Route path="/create" element={<CreateRoom />} />
         <Route path="/join" element={<JoinRoom />} />
         <Route path="/share/:roomCode" element={<ShareRoom/>} />
         <Route path="/host/:roomCode" element={<HostVoteRoom />} />

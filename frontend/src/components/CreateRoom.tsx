@@ -6,11 +6,7 @@ import TextBox from "./TextBox";
 import HomeButton from "./HomeButton";
 import { toast } from "sonner";
 
-interface CreateRoomProps {
-    setCurrentRoomCode: any;
-  }
-
-function CreateRoom({setCurrentRoomCode}: CreateRoomProps) {
+function CreateRoom() {
     
     const navigate = useNavigate();
 
@@ -37,7 +33,6 @@ function CreateRoom({setCurrentRoomCode}: CreateRoomProps) {
             }
       
             const roomData = await response.json();
-            setCurrentRoomCode(roomData?.room?.code);
             navigate(`/share/${roomData?.room?.code}`)
 
             console.log(roomData);
