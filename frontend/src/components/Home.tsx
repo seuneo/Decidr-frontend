@@ -19,7 +19,7 @@ function Home() {
        
         <Logo />
         <div className="text-2sm text-black font-bold tracking-tight">
-            VoteIt</div>
+            Decidr</div>
 
         <div className="text-slate-600 text-xl font-medium">
                 Skip the debate, let's vote!

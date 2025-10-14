@@ -169,7 +169,7 @@ function Results() {
           </div>
 
           <div className="text-center text-sm">Thanks for using {' '}
-            <span className="text-[#E07A5F] font-semibold">VoteIt!</span> 🗳️</div>
+            <span className="text-[#E07A5F] font-semibold">Decidr!</span> 🗳️</div>
 
           <div className="flex wrap:nowrap gap-2">
         <IconButton className="button-primary" onClick={() => {}} icon={<Share2 className="h-4 w-4" />}/>
