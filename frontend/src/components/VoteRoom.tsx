@@ -175,7 +175,7 @@ import Icon from "./Icon";
     if(showWaitingRoom){
       return <div className="container">
         <div className="content">
-          <div className="text-xl font-bold text-center">{question}?</div>
+          <div className="text-xl font-bold text-center">{question}</div>
           <Icon icon={<Clock className="h-8 w-8" />} className="bg-[#E07A5F]" />
           <div className=" font-semibold text-center">Waiting for Host</div>
           <div className="text-slate-600 text-sm text-center">The vote will start when the host begins.</div>       
