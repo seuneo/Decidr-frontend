@@ -52,7 +52,6 @@ function ShareRoom() {
 
     function startVoting() {
       if (socket) {
-        socket.emit('vote_started', roomCode);
         navigate(`/host/${roomCode}`);
       }
         

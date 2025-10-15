@@ -28,6 +28,9 @@ import {io, Socket} from "socket.io-client";
         
         // Join the room when connected
         newSocket.emit('join_room', roomCode);
+
+        newSocket.emit('start_vote', roomCode);
+
         
         // Listen for user count updates
         newSocket.on('user_count_update', (count) => {
@@ -163,7 +166,7 @@ import {io, Socket} from "socket.io-client";
 
         <div className="w-full flex flex-col gap-4">
        
-      <div className="text-2xl font-bold text-center">{question}?</div>
+      <div className="text-2xl font-bold text-center">{question}</div>
         
         <div className="text-slate-600 text-sm text-center">
           <div className="flex items-center justify-center space-x-2">
